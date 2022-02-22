@@ -21,28 +21,23 @@ class PasswordSizeError implements Exception {
   }
 }
 
+/// Returns a random value from a collection.
+String getRndValueFrom(String collection) {
+  return String.fromCharCode(
+      collection.codeUnitAt(rndGenerator.nextInt(collection.length)));
+}
+
 /// Generates a random password containing special characters and digits.
 String passwordGenerator({int size = 10}) {
   try {
     if (size >= 8) {
-      List letters = List.generate(
-          size ~/ 2, // Using a truncating division in order to get an int.
-          (value) => String.fromCharCode(
-              _alphabet.codeUnitAt(rndGenerator.nextInt(_alphabet.length))));
-
-      List digits = List.generate(
-          size ~/ 8,
-          (value) => String.fromCharCode(
-              _digits.codeUnitAt(rndGenerator.nextInt(_digits.length))));
-
-      List sChars = List.generate(
-          size ~/ 8,
-          (value) => String.fromCharCode(_specialCharacters
-              .codeUnitAt(rndGenerator.nextInt(_specialCharacters.length))));
-
+      List letters =
+          List.generate(size ~/ 2, (_) => getRndValueFrom(_alphabet));
+      List digits = List.generate(size ~/ 8, (_) => getRndValueFrom(_digits));
+      List sChars =
+          List.generate(size ~/ 8, (_) => getRndValueFrom(_specialCharacters));
       List pwd = (digits + letters + sChars);
       pwd.shuffle();
-
       return pwd.join();
     } else {
       throw PasswordSizeError();
