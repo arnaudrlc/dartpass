@@ -28,14 +28,14 @@ String getRndValueFrom(String collection) {
 }
 
 /// Generates a random password containing special characters and digits.
-String passwordGenerator({int size = 10}) {
+String passwordGenerator({int size = 12}) {
   try {
     if (size >= 8) {
       List letters =
           List.generate(size ~/ 2, (_) => getRndValueFrom(_alphabet));
-      List digits = List.generate(size ~/ 8, (_) => getRndValueFrom(_digits));
+      List digits = List.generate(size ~/ 4, (_) => getRndValueFrom(_digits));
       List sChars =
-          List.generate(size ~/ 8, (_) => getRndValueFrom(_specialCharacters));
+          List.generate(size ~/ 4, (_) => getRndValueFrom(_specialCharacters));
       List pwd = (digits + letters + sChars);
       pwd.shuffle();
       return pwd.join();
